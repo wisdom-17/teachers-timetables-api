@@ -1,0 +1,60 @@
+# fly.toml file generated for teachers-timetables-api on 2023-04-25T19:34:20+01:00
+
+app = "teachers-timetables-api"
+kill_signal = "SIGINT"
+kill_timeout = 5
+primary_region = "lhr"
+processes = []
+
+[build]
+  [build.args]
+    NODE_VERSION = "14"
+    PHP_VERSION = "8.1"
+
+[env]
+  APP_ENV = "production"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  APP_URL = "tt-api.saeedbhuta.com"
+  DB_CONNECTION = "mysql"
+  DB_HOST = "teachers-timetables-mysql.internal"
+  DB_PORT = 3306
+  DB_DATABASE = "teachers_timetables_api"
+  SANCTUM_STATEFUL_DOMAINS = "teachers-timetables.saeedbhuta.com"
+  SESSION_DOMAIN = ".saeedbhuta.com"
+  BROADCAST_DRIVER = "log"
+  CACHE_DRIVER = "file"
+  FILESYSTEM_DISK = "local"
+  QUEUE_CONNECTION = "sync"
+  SESSION_DRIVER = "cookie"
+  SESSION_LIFETIME=120
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
