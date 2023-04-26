@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'wonde_client' => [
+        'token' => env('WONDE_API_TOKEN'),
+        'school_id' => env('WONDE_SCHOOL_ID'),
+    ],
+
 ];
